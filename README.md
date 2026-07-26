@@ -1,14 +1,23 @@
 # 🚀 PostPulse — AI Social Media Scheduler & Meta Auto-Publisher
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://post-pulse-navy.vercel.app/)
+[![Backend API](https://img.shields.io/badge/Backend_API-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://postpulse-249c.onrender.com)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-18.2-61DAFB?style=flat-square&logo=react)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.2-646CFF?style=flat-square&logo=vite)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
 [![Google Gemini AI](https://img.shields.io/badge/Google_Gemini-AI_Engine-4285F4?style=flat-square&logo=google)](https://ai.google.dev/)
 [![Meta Graph API](https://img.shields.io/badge/Meta_Graph_API-v19.0-0668E1?style=flat-square&logo=meta)](https://developers.facebook.com/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 
 > **PostPulse** is an enterprise-grade, multi-account social media management and publishing platform built with **FastAPI**, **MongoDB / Motor**, **APScheduler**, **Google Gemini AI**, and **React**. It empowers digital creators, marketing agency teams, and enterprise brands to generate high-converting social media copy, schedule posts across interactive visual calendars, and automatically publish across **Meta APIs (Facebook Pages & Instagram Business Profiles)**.
+
+---
+
+## 🌐 Live Production Deployments
+
+- 🎨 **Web Application (Vercel)**: [https://post-pulse-navy.vercel.app/](https://post-pulse-navy.vercel.app/)
+- ⚡ **Backend API Server (Render)**: [https://postpulse-249c.onrender.com](https://postpulse-249c.onrender.com)
+- 📖 **Interactive API Documentation (Swagger)**: [https://postpulse-249c.onrender.com/docs](https://postpulse-249c.onrender.com/docs)
 
 ---
 
