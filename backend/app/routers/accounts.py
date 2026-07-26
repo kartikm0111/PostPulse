@@ -31,8 +31,31 @@ async def list_accounts(current_user: dict = Depends(get_current_user)):
 async def connect_account(acc_in: SocialAccountCreate, current_user: dict = Depends(get_current_user)):
     accounts_col = db_manager.get_collection("accounts")
     
-    # Default avatar based on platform if none provided
+    is_real_token = bool(acc_in.access_token and not acc_in.access_token.startswith("mock_"))
+    is_mock = acc_in.is_mock if acc_in.access_token else True
+    if is_real_token:
+        is_mock = False
+
     avatar = acc_in.profile_picture
+    account_name = acc_in.account_name
+
+    # If real token provided, attempt to verify and fetch official Page metadata from Meta Graph API
+    if is_real_token and acc_in.account_id:
+        try:
+            import httpx
+            async with httpx.AsyncClient() as client:
+                url = f"https://graph.facebook.com/v19.0/{acc_in.account_id}?fields=name,picture&access_token={acc_in.access_token}"
+                resp = await client.get(url, timeout=5.0)
+                if resp.status_code == 200:
+                    meta_data = resp.json()
+                    if "name" in meta_data and not account_name:
+                        account_name = meta_data["name"]
+                    pic_url = meta_data.get("picture", {}).get("data", {}).get("url")
+                    if pic_url:
+                        avatar = pic_url
+        except Exception:
+            pass  # Fallback to provided name/avatar if call fails
+
     if not avatar:
         if acc_in.platform == PlatformType.FACEBOOK:
             avatar = "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=150"
@@ -49,12 +72,12 @@ async def connect_account(acc_in: SocialAccountCreate, current_user: dict = Depe
         "_id": acc_id,
         "user_id": current_user["id"],
         "platform": acc_in.platform.value,
-        "account_name": acc_in.account_name,
+        "account_name": account_name or f"{acc_in.platform.value.capitalize()} Account",
         "account_id": acc_in.account_id,
         "access_token": acc_in.access_token,
         "profile_picture": avatar,
         "status": "active",
-        "is_mock": acc_in.is_mock,
+        "is_mock": is_mock,
         "connected_at": now_str
     }
     await accounts_col.insert_one(new_acc)
@@ -63,11 +86,11 @@ async def connect_account(acc_in: SocialAccountCreate, current_user: dict = Depe
         id=acc_id,
         user_id=current_user["id"],
         platform=acc_in.platform,
-        account_name=acc_in.account_name,
+        account_name=new_acc["account_name"],
         account_id=acc_in.account_id,
         profile_picture=avatar,
         status="active",
-        is_mock=acc_in.is_mock,
+        is_mock=is_mock,
         connected_at=now_str
     )
 

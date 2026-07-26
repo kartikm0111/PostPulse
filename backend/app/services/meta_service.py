@@ -24,7 +24,7 @@ class MetaService:
         """
         Publishes a post to a Facebook Page via Meta Graph API v19.0+
         """
-        if settings.USE_MOCK_META or access_token.startswith("mock_"):
+        if not access_token or access_token.startswith("mock_"):
             logger.info(f"[MOCK META] Simulated Facebook Page publish for Page ID: {page_id}")
             mock_id = f"fb_post_{uuid.uuid4().hex[:10]}"
             return MetaPublishResult(
@@ -76,7 +76,7 @@ class MetaService:
         Step 1: Create Container
         Step 2: Publish Media Container
         """
-        if settings.USE_MOCK_META or access_token.startswith("mock_"):
+        if not access_token or access_token.startswith("mock_"):
             logger.info(f"[MOCK META] Simulated Instagram Business publish for IG User: {ig_user_id}")
             mock_id = f"ig_post_{uuid.uuid4().hex[:10]}"
             return MetaPublishResult(

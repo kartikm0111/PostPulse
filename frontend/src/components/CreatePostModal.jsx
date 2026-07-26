@@ -162,6 +162,11 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, initialAIContent = nu
                           <Instagram className="w-3.5 h-3.5 text-pink-400" />
                         )}
                         <span>{acc.account_name}</span>
+                        {!acc.is_mock && (
+                          <span className="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-bold border border-emerald-500/30">
+                            LIVE META
+                          </span>
+                        )}
                         {isSelected && <Check className="w-3.5 h-3.5 text-indigo-400" />}
                       </button>
                     );
