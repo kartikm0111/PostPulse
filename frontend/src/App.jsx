@@ -16,6 +16,17 @@ const MainLayout = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [modalInitialContent, setModalInitialContent] = useState(null);
 
+  React.useEffect(() => {
+    const handlePresetEvent = (e) => {
+      if (e.detail) {
+        setModalInitialContent(e.detail);
+        setIsCreateModalOpen(true);
+      }
+    };
+    window.addEventListener('open-composer-preset', handlePresetEvent);
+    return () => window.removeEventListener('open-composer-preset', handlePresetEvent);
+  }, []);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[#0B0F19] flex items-center justify-center text-indigo-400 font-bold text-sm">

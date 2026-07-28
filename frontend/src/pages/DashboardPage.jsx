@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  LayoutDashboard, 
   Send, 
   Calendar, 
   CheckCircle2, 
   Share2, 
   Sparkles, 
   Plus, 
-  ArrowUpRight 
+  ArrowUpRight, 
+  Flame, 
+  Trophy, 
+  Zap 
 } from 'lucide-react';
 import { analyticsAPI, postsAPI } from '../services/api';
 import PostCard from '../components/PostCard';
+import Social3DGlobe from '../components/Social3DGlobe';
 
 const DashboardPage = ({ onOpenCreateModal }) => {
   const [stats, setStats] = useState(null);
@@ -48,6 +51,18 @@ const DashboardPage = ({ onOpenCreateModal }) => {
     }
   };
 
+  const handleQuickPreset = (presetType) => {
+    let text = '';
+    if (presetType === 'hackathon') {
+      text = "🚀 HACKATHON ALERT: Join 'PostPulse 2026 AI Buildathon'! 🏆 48 Hours of Code, $10,000+ Prizes & Top Software Engineering Roles. Register now in bio! #Hackathon #AI #Devs";
+    } else if (presetType === 'event') {
+      text = "🔥 Campus Tech Fest 2026 is LIVE! Keynote speakers, AI workshops & networking sessions. Grab your early bird passes today! 🎟️ #CampusEvent #TechFest";
+    } else if (presetType === 'launch') {
+      text = "✨ Big News! Launching PostPulse 3D Spatial Social Scheduler — automate Facebook & Instagram Graph API publishing with AI copy. Check it out! ⚡ #SaaS #BuildInPublic";
+    }
+    window.dispatchEvent(new CustomEvent('open-composer-preset', { detail: text }));
+  };
+
   const filteredPosts = posts.filter(post => {
     if (activeFilter === 'all') return true;
     return post.status === activeFilter;
@@ -55,27 +70,58 @@ const DashboardPage = ({ onOpenCreateModal }) => {
 
   return (
     <div className="space-y-8 animate-fade-in pb-12">
-      {/* Top Banner */}
-      <div className="glass-panel p-8 rounded-3xl border border-dark-border bg-gradient-to-r from-indigo-900/40 via-purple-900/30 to-dark-card flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative overflow-hidden">
-        <div className="relative z-10 max-w-xl">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 mb-3">
-            <Sparkles className="w-3.5 h-3.5" /> AI Automated Social Engine
-          </span>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight mb-2">
-            Welcome back to <span className="gradient-text">PostPulse</span>
-          </h1>
-          <p className="text-gray-300 text-sm leading-relaxed">
-            Manage multi-platform Facebook Pages and Instagram Business accounts, generate AI copy, and schedule automated post publishing.
-          </p>
+      {/* 3D Spatial Canvas Visual Header */}
+      <Social3DGlobe />
+
+      {/* High-Energy Event & Campaign Quick Presets */}
+      <div className="glass-panel p-6 rounded-2xl border border-dark-border space-y-3">
+        <div className="flex items-center justify-between">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
+            <Flame className="w-4 h-4 text-amber-400" /> High-Energy Event & Campaign Templates
+          </h3>
+          <span className="text-[10px] text-gray-400 font-medium">1-Click Fast Post Presets</span>
         </div>
 
-        <button
-          onClick={onOpenCreateModal}
-          className="gradient-btn px-6 py-3 rounded-2xl flex items-center gap-2.5 font-bold text-sm hover:scale-105 transition-all shadow-xl shadow-indigo-500/30 relative z-10"
-        >
-          <Plus className="w-5 h-5" />
-          <span>Create & Schedule Post</span>
-        </button>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <button
+            onClick={() => handleQuickPreset('hackathon')}
+            className="p-3.5 rounded-xl bg-purple-600/10 border border-purple-500/30 hover:bg-purple-600/20 text-left transition-all group"
+          >
+            <div className="flex items-center justify-between text-purple-300 font-bold text-xs mb-1">
+              <span className="flex items-center gap-1.5">
+                <Trophy className="w-4 h-4 text-purple-400" /> Hackathon Promo
+              </span>
+              <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-gray-400 line-clamp-1">48-hour buildathon announcements & prize pools</p>
+          </button>
+
+          <button
+            onClick={() => handleQuickPreset('event')}
+            className="p-3.5 rounded-xl bg-amber-600/10 border border-amber-500/30 hover:bg-amber-600/20 text-left transition-all group"
+          >
+            <div className="flex items-center justify-between text-amber-300 font-bold text-xs mb-1">
+              <span className="flex items-center gap-1.5">
+                <Zap className="w-4 h-4 text-amber-400" /> Campus Fest / Event
+              </span>
+              <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-gray-400 line-clamp-1">Campus tech summits & early-bird pass alerts</p>
+          </button>
+
+          <button
+            onClick={() => handleQuickPreset('launch')}
+            className="p-3.5 rounded-xl bg-indigo-600/10 border border-indigo-500/30 hover:bg-indigo-600/20 text-left transition-all group"
+          >
+            <div className="flex items-center justify-between text-indigo-300 font-bold text-xs mb-1">
+              <span className="flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-indigo-400" /> SaaS Product Launch
+              </span>
+              <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </div>
+            <p className="text-[11px] text-gray-400 line-clamp-1">Feature releases & product announcements</p>
+          </button>
+        </div>
       </div>
 
       {/* Metric Cards Grid */}
@@ -97,7 +143,7 @@ const DashboardPage = ({ onOpenCreateModal }) => {
           <div>
             <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">Scheduled Queue</p>
             <h3 className="text-3xl font-bold text-indigo-300 mt-1">{stats?.scheduled_posts || 0}</h3>
-            <span className="text-[11px] text-indigo-400 font-medium mt-1">Auto-Publish Active</span>
+            <span className="text-[11px] text-indigo-400 font-medium mt-1">Redis Task Worker Active</span>
           </div>
           <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
             <Calendar className="w-6 h-6" />
@@ -127,7 +173,7 @@ const DashboardPage = ({ onOpenCreateModal }) => {
         </div>
       </div>
 
-      {/* Main Post Feed Section */}
+      {/* Main Post Stream Section */}
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-dark-border pb-4">
           <div>
@@ -135,7 +181,6 @@ const DashboardPage = ({ onOpenCreateModal }) => {
             <p className="text-xs text-gray-400">Monitor your draft, scheduled, and published social content.</p>
           </div>
 
-          {/* Filter Tabs */}
           <div className="flex bg-dark-card p-1 rounded-xl border border-dark-border">
             {['all', 'scheduled', 'published', 'draft'].map((filter) => (
               <button
@@ -153,7 +198,7 @@ const DashboardPage = ({ onOpenCreateModal }) => {
           </div>
         </div>
 
-        {/* Post Grid */}
+        {/* Post Cards Grid */}
         {loading ? (
           <div className="p-12 text-center text-gray-400 text-sm">Loading PostPulse stream...</div>
         ) : filteredPosts.length === 0 ? (
@@ -163,7 +208,7 @@ const DashboardPage = ({ onOpenCreateModal }) => {
             </div>
             <h3 className="text-lg font-bold text-gray-200">No posts in this view yet</h3>
             <p className="text-xs text-gray-400 max-w-sm mx-auto">
-              Create your first social media post or use the AI Content Studio to generate high-converting copy!
+              Create your first social media post or click one of the event templates above!
             </p>
             <button
               onClick={onOpenCreateModal}
