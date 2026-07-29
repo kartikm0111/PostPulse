@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.database import db_manager
 from app.services.scheduler_service import scheduler_service
-from app.routers import auth, accounts, posts, ai, analytics
+from app.routers import auth, accounts, posts, ai, analytics, webhooks
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -44,6 +44,7 @@ app.include_router(accounts.router, prefix=settings.API_V1_STR)
 app.include_router(posts.router, prefix=settings.API_V1_STR)
 app.include_router(ai.router, prefix=settings.API_V1_STR)
 app.include_router(analytics.router, prefix=settings.API_V1_STR)
+app.include_router(webhooks.router, prefix=settings.API_V1_STR)
 
 @app.get("/")
 async def root():
